@@ -2,6 +2,7 @@
 Phase 4 – Artificial Neural Network (ANN) for Churn Prediction
 Customer Behavior Prediction Platform
 """
+# pyright: reportMissingModuleSource=false, reportMissingImports=false
 
 import os
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
