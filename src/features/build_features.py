@@ -1,10 +1,6 @@
 """
-Feature Engineering Module (PRD-Aligned)
+Feature Engineering Module (PRD-Aligned) - Final Phase 2 Version
 Customer Behavior Prediction Platform
-
-- Features calculated using data BEFORE the cutoff date
-- Churn label defined using the NEXT 90 days AFTER the cutoff date
-- Includes Purchase Frequency Trend (slope) as required by PRD
 """
 
 import pandas as pd
@@ -15,7 +11,6 @@ from sklearn.linear_model import LinearRegression
 
 
 def load_cleaned_data(path: str = "data/interim/customer_transactions.csv") -> pd.DataFrame:
-    """Load the cleaned customer-level transaction data."""
     df = pd.read_csv(path, parse_dates=["InvoiceDate"])
     print(f"Loaded {len(df):,} transactions")
     print(f"Date range: {df['InvoiceDate'].min().date()} → {df['InvoiceDate'].max().date()}")
@@ -24,11 +19,7 @@ def load_cleaned_data(path: str = "data/interim/customer_transactions.csv") -> p
 
 
 def calculate_frequency_trend(group: pd.DataFrame) -> float:
-    """
-    Calculate the slope of purchase frequency over time for one customer.
-    Uses the month number as X and number of invoices per month as Y.
-    Returns 0 if the customer has less than 2 active months.
-    """
+    """Calculate slope of monthly purchase frequency."""
     if len(group) < 2:
         return 0.0
 
@@ -40,23 +31,33 @@ def calculate_frequency_trend(group: pd.DataFrame) -> float:
 
     X = monthly[["month_num"]]
     y = monthly["count"]
-
     model = LinearRegression()
     model.fit(X, y)
     return float(model.coef_[0])
 
 
+def calculate_purchase_interval_stats(group: pd.DataFrame) -> pd.Series:
+    """Calculate average and standard deviation of days between consecutive purchases."""
+    dates = group["InvoiceDate"].sort_values().drop_duplicates()
+    
+    if len(dates) < 2:
+        return pd.Series({"Avg_Days_Between": 0.0, "Std_Days_Between": 0.0})
+    
+    diffs = dates.diff().dt.days.dropna()
+    
+    return pd.Series({
+        "Avg_Days_Between": diffs.mean(),
+        "Std_Days_Between": diffs.std(ddof=0)  # population std
+    })
+
+
 def create_features_and_target(df: pd.DataFrame, cutoff_date: str = "2011-09-01") -> pd.DataFrame:
-    """
-    Create customer features + churn label using point-in-time discipline.
-    """
     cutoff = pd.Timestamp(cutoff_date)
     observation_end = cutoff + timedelta(days=90)
 
     print(f"\nCutoff date (features before)     : {cutoff.date()}")
     print(f"Observation window (churn label) : {cutoff.date()} → {observation_end.date()}")
 
-    # Split data
     df_past = df[df["InvoiceDate"] < cutoff].copy()
     df_future = df[(df["InvoiceDate"] >= cutoff) & (df["InvoiceDate"] <= observation_end)].copy()
 
@@ -65,9 +66,7 @@ def create_features_and_target(df: pd.DataFrame, cutoff_date: str = "2011-09-01"
 
     df_past["Revenue"] = df_past["Quantity"] * df_past["Price"]
 
-    # --------------------------------------------------
-    # Basic Aggregations
-    # --------------------------------------------------
+    # Basic aggregations
     features = df_past.groupby("Customer_ID").agg(
         Recency=("InvoiceDate", lambda x: (cutoff - x.max()).days),
         Frequency=("Invoice", "nunique"),
@@ -79,19 +78,14 @@ def create_features_and_target(df: pd.DataFrame, cutoff_date: str = "2011-09-01"
         Last_Purchase=("InvoiceDate", "max"),
     ).reset_index()
 
-    # --------------------------------------------------
-    # Return Features
-    # --------------------------------------------------
+    # Return features
     returns = df_past[df_past["Is_Return"] == True].groupby("Customer_ID").size().reset_index(name="N_Returns")
     features = features.merge(returns, on="Customer_ID", how="left")
     features["N_Returns"] = features["N_Returns"].fillna(0).astype(int)
     features["Return_Rate"] = features["N_Returns"] / features["N_Transactions"]
 
-    # --------------------------------------------------
-    # Derived Features
-    # --------------------------------------------------
+    # Derived features
     features["Customer_Age_Days"] = (features["Last_Purchase"] - features["First_Purchase"]).dt.days
-    features["Avg_Days_Between_Orders"] = features["Customer_Age_Days"] / features["Frequency"].replace(0, np.nan)
     features["Monetary_Positive"] = features["Monetary"].clip(lower=0)
 
     # Engagement Score
@@ -101,18 +95,22 @@ def create_features_and_target(df: pd.DataFrame, cutoff_date: str = "2011-09-01"
         np.log1p(features["Monetary_Positive"]) * 0.30
     )
 
-    # --------------------------------------------------
-    # Purchase Frequency Trend (PRD Required)
-    # --------------------------------------------------
-    print("Calculating Purchase Frequency Trend (this may take a moment)...")
+    # Frequency Trend
+    print("Calculating Purchase Frequency Trend...")
     trend = df_past.groupby("Customer_ID").apply(calculate_frequency_trend, include_groups=False)
     trend = trend.reset_index(name="Frequency_Trend")
     features = features.merge(trend, on="Customer_ID", how="left")
     features["Frequency_Trend"] = features["Frequency_Trend"].fillna(0)
 
-    # --------------------------------------------------
-    # Churn Label
-    # --------------------------------------------------
+    # Time Between Purchases (Avg + Std) - PRD required
+    print("Calculating Time Between Purchases statistics...")
+    interval_stats = df_past.groupby("Customer_ID").apply(calculate_purchase_interval_stats, include_groups=False)
+    interval_stats = interval_stats.reset_index()
+    features = features.merge(interval_stats, on="Customer_ID", how="left")
+    features["Avg_Days_Between"] = features["Avg_Days_Between"].fillna(0)
+    features["Std_Days_Between"] = features["Std_Days_Between"].fillna(0)
+
+    # Churn label
     future_customers = set(df_future["Customer_ID"].unique())
     features["Churn"] = features["Customer_ID"].apply(lambda x: 0 if x in future_customers else 1)
 
@@ -125,7 +123,6 @@ def create_features_and_target(df: pd.DataFrame, cutoff_date: str = "2011-09-01"
 
 
 def save_features(features: pd.DataFrame, path: str = "data/processed/customer_features.csv") -> None:
-    """Save the final feature table."""
     output_path = Path(path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     features.to_csv(output_path, index=False)
@@ -136,12 +133,12 @@ if __name__ == "__main__":
     df = load_cleaned_data()
     features = create_features_and_target(df, cutoff_date="2011-09-01")
 
-    print("\nSample of final features + target:")
-    cols_to_show = ["Customer_ID", "Recency", "Frequency", "Monetary", "Return_Rate", 
-                    "Frequency_Trend", "Engagement_Score", "Churn"]
-    print(features[cols_to_show].head(8).round(3))
+    print("\nSample of final features:")
+    cols = ["Customer_ID", "Recency", "Frequency", "Monetary", "Return_Rate", 
+            "Frequency_Trend", "Avg_Days_Between", "Std_Days_Between", "Engagement_Score", "Churn"]
+    print(features[cols].head(8).round(3))
 
-    print("\nFrequency Trend Summary:")
-    print(features["Frequency_Trend"].describe().round(3))
+    print("\nNew features summary:")
+    print(features[["Frequency_Trend", "Avg_Days_Between", "Std_Days_Between"]].describe().round(3))
 
     save_features(features)
