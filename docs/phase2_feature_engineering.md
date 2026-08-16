@@ -39,7 +39,9 @@ To avoid target leakage, we used a strict time-based cutoff:
 | N_Returns                | Number of return transactions                    | Numeric   |
 | Return_Rate              | N_Returns / N_Transactions                       | Numeric   |
 | Customer_Age_Days        | Days between first and last purchase             | Numeric   |
-| Avg_Days_Between_Orders  | Customer_Age_Days / Frequency                    | Numeric   |
+| Frequency_Trend          | Slope of monthly purchase frequency over time    | Numeric   |
+| Avg_Days_Between         | Average days between consecutive purchases       | Numeric   |
+| Std_Days_Between         | Standard deviation of days between purchases     | Numeric   |
 | Engagement_Score         | Weighted combination of Recency, Frequency, Monetary | Numeric |
 | Churn                    | Target variable (1 = churned, 0 = active)        | Binary    |
 
@@ -63,6 +65,6 @@ To avoid target leakage, we used a strict time-based cutoff:
 
 ## 6. Next Steps
 
-- Review feature distributions and correlations
-- Decide if additional features from the PRD are required before modeling
-- Prepare data for train/validation/test split
+- Phase 3: Classical Machine Learning Models
+- Train/validation/test split
+- Baseline and advanced models as defined in the PRD
