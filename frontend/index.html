@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBPP Platform – Overview</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">C</div>
+            <div class="logo-text">
+                <h2>CBPP Platform</h2>
+                <p>Vantara Retail Solutions</p>
+            </div>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="index.html" class="nav-link active">Overview</a>
+            </li>
+            <li class="nav-item">
+                <a href="customer.html" class="nav-link">Customer Lookup</a>
+            </li>
+            <li class="nav-item">
+                <a href="leaderboard.html" class="nav-link">Churn Leaderboard</a>
+            </li>
+            <li class="nav-item">
+                <a href="about.html" class="nav-link">About</a>
+            </li>
+        </ul>
+
+        <div style="padding: 12px; font-size: 12px; color: var(--text-muted);">
+            Customer Behavior Prediction Platform
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>Customer Behavior Prediction Platform</h1>
+            <p>AI-powered insights to help you understand customer behavior and reduce churn.</p>
+        </div>
+
+        <!-- Metrics -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="label">Total Customers</div>
+                <div class="value" id="total-customers">5,314</div>
+                <div class="subtext">Active customer base</div>
+            </div>
+            <div class="metric-card">
+                <div class="label">Churn Rate</div>
+                <div class="value" id="churn-rate">57.4%</div>
+                <div class="subtext negative">High risk segment exists</div>
+            </div>
+            <div class="metric-card">
+                <div class="label">Low Engagement</div>
+                <div class="value" id="low-engagement">1,386</div>
+                <div class="subtext">Customers needing attention</div>
+            </div>
+            <div class="metric-card">
+                <div class="label">Avg. Customer Value</div>
+                <div class="value" id="avg-value">£2,449</div>
+                <div class="subtext positive">Historical monetary value</div>
+            </div>
+        </div>
+
+        <!-- Feature Insights -->
+        <div class="card">
+            <h3>Key Insights</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 12px;">
+                <div style="padding: 16px; background: rgba(59,130,246,0.08); border-radius: 8px;">
+                    <strong>Recency is critical</strong>
+                    <p style="color: var(--text-muted); font-size: 13px; margin-top: 6px;">
+                        Customers who have not purchased recently have the highest churn risk.
+                    </p>
+                </div>
+                <div style="padding: 16px; background: rgba(34,197,94,0.08); border-radius: 8px;">
+                    <strong>High-value customers</strong>
+                    <p style="color: var(--text-muted); font-size: 13px; margin-top: 6px;">
+                        A small group of customers contribute a large share of total revenue.
+                    </p>
+                </div>
+                <div style="padding: 16px; background: rgba(245,158,11,0.08); border-radius: 8px;">
+                    <strong>Engagement matters</strong>
+                    <p style="color: var(--text-muted); font-size: 13px; margin-top: 6px;">
+                        Low engagement scores strongly correlate with future churn.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card">
+            <h3>Quick Actions</h3>
+            <div style="display: flex; gap: 12px; margin-top: 12px;">
+                <a href="customer.html" class="btn">Lookup a Customer</a>
+                <a href="leaderboard.html" class="btn" style="background: #334155;">View High Risk Customers</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+
+</body>
+</html>

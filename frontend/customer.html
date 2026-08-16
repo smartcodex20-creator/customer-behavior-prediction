@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBPP Platform – Customer Lookup</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">C</div>
+            <div class="logo-text">
+                <h2>CBPP Platform</h2>
+                <p>Vantara Retail Solutions</p>
+            </div>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="index.html" class="nav-link">Overview</a>
+            </li>
+            <li class="nav-item">
+                <a href="customer.html" class="nav-link active">Customer Lookup</a>
+            </li>
+            <li class="nav-item">
+                <a href="leaderboard.html" class="nav-link">Churn Leaderboard</a>
+            </li>
+            <li class="nav-item">
+                <a href="about.html" class="nav-link">About</a>
+            </li>
+        </ul>
+
+        <div style="padding: 12px; font-size: 12px; color: var(--text-muted);">
+            Customer Behavior Prediction Platform
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>Customer Lookup</h1>
+            <p>Enter a Customer ID to get real-time churn prediction and risk assessment.</p>
+        </div>
+
+        <!-- Search Box -->
+        <div class="card">
+            <h3>Search Customer</h3>
+            <div class="form-group" style="margin-top: 16px;">
+                <label for="customer-id">Customer ID</label>
+                <input type="number" id="customer-id" placeholder="e.g. 12347" value="12347">
+            </div>
+            <button class="btn" onclick="lookupCustomer()">Get Prediction</button>
+        </div>
+
+        <!-- Results Section (hidden by default) -->
+        <div class="card" id="result-section" style="display: none;">
+            <h3>Prediction Result</h3>
+
+            <div class="metrics-grid" style="margin-top: 20px;">
+                <div class="metric-card">
+                    <div class="label">Churn Probability</div>
+                    <div class="value" id="result-probability">-</div>
+                </div>
+                <div class="metric-card">
+                    <div class="label">Prediction</div>
+                    <div class="value" id="result-prediction">-</div>
+                </div>
+                <div class="metric-card">
+                    <div class="label">Risk Level</div>
+                    <div class="value" id="result-risk">-</div>
+                </div>
+                <div class="metric-card">
+                    <div class="label">Customer ID</div>
+                    <div class="value" id="result-id">-</div>
+                </div>
+            </div>
+
+            <div id="result-message" style="margin-top: 20px; padding: 16px; background: rgba(59,130,246,0.1); border-radius: 8px; font-size: 15px;">
+            </div>
+        </div>
+
+        <!-- Error message -->
+        <div class="card" id="error-section" style="display: none; border-color: var(--danger);">
+            <p id="error-message" style="color: var(--danger);"></p>
+        </div>
+    </main>
+
+    <script>
+        const API_URL = "http://127.0.0.1:8000";
+
+        async function lookupCustomer() {
+            const customerId = document.getElementById("customer-id").value;
+            const resultSection = document.getElementById("result-section");
+            const errorSection = document.getElementById("error-section");
+
+            // Hide previous results
+            resultSection.style.display = "none";
+            errorSection.style.display = "none";
+
+            if (!customerId) {
+                showError("Please enter a Customer ID.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/customer/${customerId}`);
+
+                if (response.status === 404) {
+                    showError(`Customer ID ${customerId} was not found in the database.`);
+                    return;
+                }
+
+                if (!response.ok) {
+                    showError("Something went wrong while contacting the API.");
+                    return;
+                }
+
+                const data = await response.json();
+
+                // Show results
+                document.getElementById("result-probability").textContent =
+                    (data.Churn_Probability * 100).toFixed(1) + "%";
+
+                document.getElementById("result-prediction").textContent =
+                    data.Churn_Prediction === 1 ? "Churn" : "Active";
+
+                document.getElementById("result-risk").textContent = data.Risk_Level;
+                document.getElementById("result-id").textContent = data.Customer_ID || customerId;
+                document.getElementById("result-message").textContent = data.Message;
+
+                // Color the risk level
+                const riskEl = document.getElementById("result-risk");
+                if (data.Risk_Level === "High") riskEl.style.color = "#ef4444";
+                else if (data.Risk_Level === "Medium") riskEl.style.color = "#f59e0b";
+                else riskEl.style.color = "#22c55e";
+
+                resultSection.style.display = "block";
+
+            } catch (error) {
+                showError("Could not connect to the API. Make sure the FastAPI server is running on port 8000.");
+                console.error(error);
+            }
+        }
+
+        function showError(message) {
+            const errorSection = document.getElementById("error-section");
+            document.getElementById("error-message").textContent = message;
+            errorSection.style.display = "block";
+        }
+    </script>
+
+</body>
+</html>

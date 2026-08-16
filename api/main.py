@@ -4,14 +4,13 @@ Phase 5 – Deployment
 """
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import List, Optional
 import pandas as pd
 import numpy as np
 from pathlib import Path
-import joblib
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.preprocessing import StandardScaler
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -21,6 +20,14 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Enable CORS so the frontend can talk to the API
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # --------------------------------------------------
 # Load model and data at startup
 # --------------------------------------------------
@@ -195,4 +202,20 @@ def get_customer(customer_id: int):
         Std_Days_Between=float(row["Std_Days_Between"]),
         Engagement_Score=float(row["Engagement_Score"])
     )
+
+
     return predict_single(features)
+@app.get("/metrics", tags=["Monitoring"])
+def get_overview_metrics():
+    """Return real overview metrics for the dashboard."""
+    total_customers = len(df)
+    churn_rate = round(df["Churn"].mean() * 100, 1)
+    low_engagement = int((df["Engagement_Score"] < 2.0).sum())
+    avg_value = round(df["Monetary_Positive"].mean(), 0)
+
+    return {
+        "total_customers": total_customers,
+        "churn_rate": churn_rate,
+        "low_engagement": low_engagement,
+        "avg_customer_value": avg_value
+    }
