@@ -1,10 +1,11 @@
 """
 Phase 4 – LSTM for Sequential Purchase Behavior
 Customer Behavior Prediction Platform
-
-Creates purchase sequences for each customer and trains an LSTM
-to predict churn (PRD requirement).
 """
+
+import os
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 
 import pandas as pd
 import numpy as np
@@ -23,7 +24,7 @@ warnings.filterwarnings("ignore")
 tf.random.set_seed(42)
 np.random.seed(42)
 
-SEQUENCE_LENGTH = 5   # last 5 purchases
+SEQUENCE_LENGTH = 5
 CUTOFF_DATE = "2011-09-01"
 
 
@@ -34,23 +35,16 @@ def load_transactions(path: str = "data/interim/customer_transactions.csv") -> p
 
 
 def create_sequences(df: pd.DataFrame, cutoff: str = CUTOFF_DATE, seq_len: int = SEQUENCE_LENGTH):
-    """
-    Create fixed-length purchase sequences for each customer.
-    Features per step: [Revenue, Days_Since_Previous, Quantity]
-    """
     cutoff = pd.Timestamp(cutoff)
     df = df[df["InvoiceDate"] < cutoff].copy()
     df["Revenue"] = df["Quantity"] * df["Price"]
     df = df.sort_values(["Customer_ID", "InvoiceDate"])
-
-    # Calculate days since previous purchase
     df["Days_Since_Prev"] = df.groupby("Customer_ID")["InvoiceDate"].diff().dt.days.fillna(0)
 
     sequences = []
     customer_ids = []
 
     for cust_id, group in df.groupby("Customer_ID"):
-        # Aggregate to invoice level
         inv = group.groupby("Invoice").agg({
             "Revenue": "sum",
             "Quantity": "sum",
@@ -63,7 +57,6 @@ def create_sequences(df: pd.DataFrame, cutoff: str = CUTOFF_DATE, seq_len: int =
 
         feats = inv[["Revenue", "Days_Since_Prev", "Quantity"]].values
 
-        # Pad or truncate to fixed length
         if len(feats) >= seq_len:
             seq = feats[-seq_len:]
         else:
@@ -75,12 +68,11 @@ def create_sequences(df: pd.DataFrame, cutoff: str = CUTOFF_DATE, seq_len: int =
 
     X = np.array(sequences)
     print(f"Created sequences for {len(customer_ids):,} customers")
-    print(f"Sequence shape: {X.shape}")  # (n_customers, seq_len, n_features)
+    print(f"Sequence shape: {X.shape}")
     return X, customer_ids
 
 
 def load_churn_labels(customer_ids, features_path: str = "data/processed/customer_features.csv"):
-    """Match sequences with the existing churn labels."""
     feat = pd.read_csv(features_path)
     label_map = dict(zip(feat["Customer_ID"], feat["Churn"]))
     y = np.array([label_map.get(cid, 0) for cid in customer_ids])
@@ -122,14 +114,12 @@ def evaluate(model, X, y, set_name: str):
 
 
 if __name__ == "__main__":
-    # 1. Create sequences
     df = load_transactions()
     X, customer_ids = create_sequences(df)
     y = load_churn_labels(customer_ids)
 
     print(f"Churn rate in sequences: {y.mean()*100:.2f}%")
 
-    # 2. Split
     X_train, X_temp, y_train, y_temp = train_test_split(
         X, y, test_size=0.30, random_state=42, stratify=y
     )
@@ -139,24 +129,18 @@ if __name__ == "__main__":
 
     print(f"Train: {len(X_train)} | Val: {len(X_val)} | Test: {len(X_test)}")
 
-    # 3. Scale features across the sequence
-    # Reshape for scaling → scale → reshape back
-    n_samples, n_steps, n_feats = X_train.shape
+    n_feats = X_train.shape[2]
     scaler = StandardScaler()
-    X_train_reshaped = X_train.reshape(-1, n_feats)
-    scaler.fit(X_train_reshaped)
+    scaler.fit(X_train.reshape(-1, n_feats))
 
     def scale_sequences(X):
         shape = X.shape
-        X_reshaped = X.reshape(-1, shape[-1])
-        X_scaled = scaler.transform(X_reshaped)
-        return X_scaled.reshape(shape)
+        return scaler.transform(X.reshape(-1, shape[-1])).reshape(shape)
 
     X_train = scale_sequences(X_train)
     X_val = scale_sequences(X_val)
     X_test = scale_sequences(X_test)
 
-    # 4. Build & train LSTM
     model = build_lstm(input_shape=(SEQUENCE_LENGTH, 3))
     print("\nLSTM Architecture:")
     model.summary()
@@ -175,11 +159,9 @@ if __name__ == "__main__":
         verbose=1
     )
 
-    # 5. Evaluate
     evaluate(model, X_val, y_val, "Validation")
     evaluate(model, X_test, y_test, "Test")
 
-    # 6. Save
     model_path = Path("models_artifacts/lstm_churn_model.keras")
     model_path.parent.mkdir(parents=True, exist_ok=True)
     model.save(model_path)

@@ -3,6 +3,10 @@ Phase 4 – Artificial Neural Network (ANN) for Churn Prediction
 Customer Behavior Prediction Platform
 """
 
+import os
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -17,7 +21,6 @@ from tensorflow.keras import layers, models, callbacks, metrics, optimizers
 import warnings
 warnings.filterwarnings("ignore")
 
-# Reproducibility
 tf.random.set_seed(42)
 np.random.seed(42)
 
@@ -59,7 +62,6 @@ def prepare_data(df: pd.DataFrame):
 
 
 def build_ann(input_dim: int):
-    """Build a feed-forward Neural Network as required by the PRD."""
     model = models.Sequential([
         layers.Input(shape=(input_dim,)),
         layers.Dense(64, activation="relu"),
@@ -101,19 +103,16 @@ if __name__ == "__main__":
     (X_train, X_val, X_test,
      y_train, y_val, y_test, scaler, feature_cols) = prepare_data(df)
 
-    # Build model
     model = build_ann(input_dim=X_train.shape[1])
     print("\nANN Architecture:")
     model.summary()
 
-    # Callbacks
     early_stop = callbacks.EarlyStopping(
         monitor="val_auc", patience=10, mode="max", restore_best_weights=True
     )
 
-    # Train
     print("\nTraining ANN...")
-    history = model.fit(
+    model.fit(
         X_train, y_train,
         validation_data=(X_val, y_val),
         epochs=100,
@@ -122,11 +121,9 @@ if __name__ == "__main__":
         verbose=1
     )
 
-    # Evaluate
     evaluate_ann(model, X_val, y_val, "Validation")
     evaluate_ann(model, X_test, y_test, "Test")
 
-    # Save model
     model_path = Path("models_artifacts/ann_churn_model.keras")
     model_path.parent.mkdir(parents=True, exist_ok=True)
     model.save(model_path)
