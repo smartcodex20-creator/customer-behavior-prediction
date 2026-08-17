@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBPP Platform – About</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">C</div>
+            <div class="logo-text">
+                <h2>CBPP Platform</h2>
+                <p>Vantara Retail Solutions</p>
+            </div>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="index.html" class="nav-link">Overview</a>
+            </li>
+            <li class="nav-item">
+                <a href="customer.html" class="nav-link">Customer Lookup</a>
+            </li>
+            <li class="nav-item">
+                <a href="leaderboard.html" class="nav-link">Churn Leaderboard</a>
+            </li>
+            <li class="nav-item">
+                <a href="about.html" class="nav-link active">About</a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer" style="text-align: center; padding-top: 20px;">
+    <div style="font-size: 14px; font-weight: 600; color: #cbd5e1; margin-bottom: 4px;">
+        CBPP Platform
+    </div>
+    <div style="font-size: 12px; color: #64748b;">
+        Vantara Retail Solutions
+    </div>
+</div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>About This Platform</h1>
+            <p>Customer Behavior Prediction Platform – Vantara Retail Solutions</p>
+        </div>
+
+        <div class="card">
+            <h3>Project Overview</h3>
+            <p style="color: var(--text-muted); line-height: 1.7; margin-top: 12px;">
+                This platform helps the Marketing and Retention teams identify customers who are at risk of churning.
+                It uses real transaction data from an online retail business and applies machine learning models
+                to predict churn probability, estimate customer value, and segment customers based on their behavior.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Key Capabilities</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
+                <div style="padding: 16px; background: rgba(59,130,246,0.08); border-radius: 8px;">
+                    <strong>Churn Prediction</strong>
+                    <p style="color: var(--text-muted); font-size: 13px; margin-top: 6px;">
+                        Predicts the probability that a customer will stop purchasing in the near future.
+                    </p>
+                </div>
+                <div style="padding: 16px; background: rgba(34,197,94,0.08); border-radius: 8px;">
+                    <strong>Customer Lifetime Value</strong>
+                    <p style="color: var(--text-muted); font-size: 13px; margin-top: 6px;">
+                        Estimates the historical and potential value of each customer.
+                    </p>
+                </div>
+                <div style="padding: 16px; background: rgba(245,158,11,0.08); border-radius: 8px;">
+                    <strong>Customer Segmentation</strong>
+                    <p style="color: var(--text-muted); font-size: 13px; margin-top: 6px;">
+                        Groups customers into meaningful segments for targeted marketing.
+                    </p>
+                </div>
+                <div style="padding: 16px; background: rgba(168,85,247,0.08); border-radius: 8px;">
+                    <strong>Model Explainability</strong>
+                    <p style="color: var(--text-muted); font-size: 13px; margin-top: 6px;">
+                        Uses SHAP and LIME to explain why a customer is predicted to churn.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Technology Stack</h3>
+            <div style="margin-top: 12px; color: var(--text-muted); line-height: 1.8;">
+                <p><strong style="color: var(--text-main);">Data & Features:</strong> Python, Pandas, NumPy</p>
+                <p><strong style="color: var(--text-main);">Machine Learning:</strong> Scikit-learn, XGBoost, LightGBM</p>
+                <p><strong style="color: var(--text-main);">Deep Learning:</strong> TensorFlow (ANN, LSTM, Autoencoder)</p>
+                <p><strong style="color: var(--text-main);">Explainability:</strong> SHAP, LIME</p>
+                <p><strong style="color: var(--text-main);">Backend:</strong> FastAPI</p>
+                <p><strong style="color: var(--text-main);">Frontend:</strong> HTML, CSS, JavaScript</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Project Status</h3>
+            <p style="color: var(--text-muted); margin-top: 12px; line-height: 1.7;">
+                This is an internship project developed for Vantara Retail Solutions.
+                The platform currently supports customer lookup, churn risk scoring, and a high-risk leaderboard.
+                Further improvements such as Docker deployment and additional dashboard features are planned.
+            </p>
+        </div>
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBPP Platform – Churn Leaderboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">C</div>
+            <div class="logo-text">
+                <h2>CBPP Platform</h2>
+                <p>Vantara Retail Solutions</p>
+            </div>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link">Overview</a></li>
+            <li class="nav-item"><a href="customer.html" class="nav-link">Customer Lookup</a></li>
+            <li class="nav-item"><a href="leaderboard.html" class="nav-link active">Churn Leaderboard</a></li>
+            <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+        </ul>
+
+        <div class="sidebar-footer" style="text-align: center; padding-top: 20px;">
+    <div style="font-size: 14px; font-weight: 600; color: #cbd5e1; margin-bottom: 4px;">
+        CBPP Platform
+    </div>
+    <div style="font-size: 12px; color: #64748b;">
+        Vantara Retail Solutions
+    </div>
+</div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>Churn Risk Leaderboard</h1>
+            <p>Top customers with the highest churn risk based on Recency and Engagement Score.</p>
+        </div>
+
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
+                <h3 style="margin: 0;">High Risk Customers</h3>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <input 
+                        type="text" 
+                        id="search-input" 
+                        placeholder="Search Customer ID..." 
+                        style="padding: 9px 14px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #f1f5f9; font-size: 13px; width: 180px;"
+                    >
+                    <button class="btn" onclick="loadLeaderboard()">Refresh</button>
+                </div>
+            </div>
+
+            <div id="loading" style="color: var(--text-muted); padding: 12px 0;">Loading leaderboard...</div>
+
+            <div id="leaderboard-container" style="display: none; overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Customer ID</th>
+                            <th>Recency</th>
+                            <th>Frequency</th>
+                            <th>Monetary (£)</th>
+                            <th>Engagement</th>
+                            <th>Churn</th>
+                            <th>Risk Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body"></tbody>
+                </table>
+            </div>
+
+            <div id="no-results" style="display: none; color: var(--text-muted); padding: 16px 0;">
+                No customers found for this search.
+            </div>
+
+            <div id="error-message" style="display: none; color: var(--danger); margin-top: 12px;"></div>
+        </div>
+    </main>
+
+    <script>
+        const API_URL = "http://127.0.0.1:8000";
+        let allCustomers = [];
+
+        async function loadLeaderboard() {
+            const loading = document.getElementById("loading");
+            const container = document.getElementById("leaderboard-container");
+            const errorMsg = document.getElementById("error-message");
+            const noResults = document.getElementById("no-results");
+            const tbody = document.getElementById("leaderboard-body");
+
+            loading.style.display = "block";
+            container.style.display = "none";
+            errorMsg.style.display = "none";
+            noResults.style.display = "none";
+            tbody.innerHTML = "";
+
+            try {
+                const response = await fetch(`${API_URL}/leaderboard?limit=50`);
+                if (!response.ok) throw new Error("Failed to load leaderboard");
+
+                const data = await response.json();
+                allCustomers = data.customers || [];
+
+                renderTable(allCustomers);
+                loading.style.display = "none";
+
+            } catch (error) {
+                loading.style.display = "none";
+                errorMsg.style.display = "block";
+                errorMsg.textContent = "Could not load leaderboard. Make sure the API is running.";
+                console.error(error);
+            }
+        }
+
+        function renderTable(customers) {
+            const tbody = document.getElementById("leaderboard-body");
+            const container = document.getElementById("leaderboard-container");
+            const noResults = document.getElementById("no-results");
+
+            tbody.innerHTML = "";
+
+            if (customers.length === 0) {
+                container.style.display = "none";
+                noResults.style.display = "block";
+                return;
+            }
+
+            noResults.style.display = "none";
+            container.style.display = "block";
+
+            customers.forEach((cust, index) => {
+                const row = document.createElement("tr");
+                const churnBadge = cust.Churn === 1
+                    ? `<span class="badge badge-high">Churn</span>`
+                    : `<span class="badge badge-low">Active</span>`;
+
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${cust.Customer_ID}</td>
+                    <td>${cust.Recency}</td>
+                    <td>${cust.Frequency}</td>
+                    <td>£${Number(cust.Monetary_Positive).toLocaleString()}</td>
+                    <td>${Number(cust.Engagement_Score).toFixed(2)}</td>
+                    <td>${churnBadge}</td>
+                    <td><strong>${Number(cust.Risk_Score).toFixed(1)}</strong></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Live search
+        document.getElementById("search-input").addEventListener("input", function (e) {
+            const query = e.target.value.trim();
+            if (!query) {
+                renderTable(allCustomers);
+                return;
+            }
+            const filtered = allCustomers.filter(c =>
+                String(c.Customer_ID).includes(query)
+            );
+            renderTable(filtered);
+        });
+
+        document.addEventListener("DOMContentLoaded", loadLeaderboard);
+    </script>
+
+</body>
+</html>

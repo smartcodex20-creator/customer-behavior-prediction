@@ -219,3 +219,37 @@ def get_overview_metrics():
         "low_engagement": low_engagement,
         "avg_customer_value": avg_value
     }
+
+@app.get("/leaderboard", tags=["Customer Lookup"])
+def get_leaderboard(limit: int = 20):
+    """
+    Return top high-risk customers sorted by a simple Risk Score.
+    Risk Score = Recency * 0.5 + (5 - Engagement_Score) * 30
+    """
+    temp = df.copy()
+    temp["Risk_Score"] = (
+        temp["Recency"] * 0.5 +
+        (5 - temp["Engagement_Score"]) * 30
+    )
+
+    top = temp.nlargest(limit, "Risk_Score")[
+        ["Customer_ID", "Recency", "Frequency", "Monetary_Positive",
+         "Engagement_Score", "Churn", "Risk_Score"]
+    ]
+
+    customers = []
+    for _, row in top.iterrows():
+        customers.append({
+            "Customer_ID": int(row["Customer_ID"]),
+            "Recency": int(row["Recency"]),
+            "Frequency": int(row["Frequency"]),
+            "Monetary_Positive": round(float(row["Monetary_Positive"]), 2),
+            "Engagement_Score": round(float(row["Engagement_Score"]), 2),
+            "Churn": int(row["Churn"]),
+            "Risk_Score": round(float(row["Risk_Score"]), 1)
+        })
+
+    return {
+        "count": len(customers),
+        "customers": customers
+    }
