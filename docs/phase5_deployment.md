@@ -81,7 +81,8 @@ Frontend: http://127.0.0.1:5500/index.html
 API Docs: http://127.0.0.1:8000/docs
 Health: http://127.0.0.1:8000/health
 
-5. Verification
+
+## 5. Verification
 
 Check,Result
 API health endpoint,Working
@@ -93,5 +94,5 @@ Customer lookup,Working
 Leaderboard and search,Working
 Docker Compose,Working
 
-6. Status
+## 6. Status
 Phase 5 deployment deliverables are complete.
