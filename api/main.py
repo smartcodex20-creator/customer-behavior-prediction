@@ -253,3 +253,43 @@ def get_leaderboard(limit: int = 20):
         "count": len(customers),
         "customers": customers
     }
+
+@app.get("/charts/distributions", tags=["Monitoring"])
+def get_chart_distributions():
+    """
+    Return real distribution data for Recency and Engagement Score
+    to be used in the Overview charts.
+    """
+    # Recency bins
+    recency_bins = [0, 15, 30, 45, 60, 90, float("inf")]
+    recency_labels = ["0-15", "15-30", "30-45", "45-60", "60-90", "90+"]
+    recency_counts = []
+
+    for i in range(len(recency_bins) - 1):
+        count = int(
+            ((df["Recency"] >= recency_bins[i]) & (df["Recency"] < recency_bins[i+1])).sum()
+        )
+        recency_counts.append(count)
+
+    # Engagement Score bins
+    engagement_bins = [0, 1, 2, 3, 4, 5, float("inf")]
+    engagement_labels = ["0-1", "1-2", "2-3", "3-4", "4-5", "5+"]
+    engagement_counts = []
+
+    for i in range(len(engagement_bins) - 1):
+        count = int(
+            ((df["Engagement_Score"] >= engagement_bins[i]) &
+             (df["Engagement_Score"] < engagement_bins[i+1])).sum()
+        )
+        engagement_counts.append(count)
+
+    return {
+        "recency": {
+            "labels": recency_labels,
+            "values": recency_counts
+        },
+        "engagement": {
+            "labels": engagement_labels,
+            "values": engagement_counts
+        }
+    }

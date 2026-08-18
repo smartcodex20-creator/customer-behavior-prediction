@@ -113,26 +113,27 @@
             <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
         </ul>
 
-       <div class="sidebar-footer" style="text-align: center; padding-top: 20px;">
-    <div style="font-size: 14px; font-weight: 600; color: #cbd5e1; margin-bottom: 4px;">
-        CBPP Platform
-    </div>
-    <div style="font-size: 12px; color: #64748b;">
-        Vantara Retail Solutions
-    </div>
-</div>
+        <div class="sidebar-footer" style="text-align: center; padding-top: 20px;">
+            <div style="font-size: 14px; font-weight: 600; color: #cbd5e1; margin-bottom: 4px;">
+                CBPP Platform
+            </div>
+            <div style="font-size: 12px; color: #64748b;">
+                Vantara Retail Solutions
+            </div>
+        </div>
     </aside>
 
     <!-- Main Content -->
     <main class="main-content">
 
-        <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px;">
-    <div>
-        <h1>Welcome back</h1>
-        <p>Here's what's happening with your customers today.</p>
-    </div>
-    <div style="text-align: right;">
-    <div style="
+        <div class="page-header"
+            style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px;">
+            <div>
+                <h1>Welcome back</h1>
+                <p>Here's what's happening with your customers today.</p>
+            </div>
+            <div style="text-align: right;">
+                <div style="
         display: inline-block;
         background: #1e293b;
         border: 1px solid #475569;
@@ -142,13 +143,13 @@
         font-size: 13px;
         font-weight: 500;
     ">
-        Prediction Window: Sep – Nov 2011
-    </div>
-    <div style="font-size: 11px; color: #94a3b8; margin-top: 6px;">
-        Fixed 90-day churn window (PRD)
-    </div>
-</div>
-</div>
+                    Prediction Window: Sep – Nov 2011
+                </div>
+                <div style="font-size: 11px; color: #94a3b8; margin-top: 6px;">
+                    Fixed 90-day churn window (PRD)
+                </div>
+            </div>
+        </div>
 
         <!-- Metrics -->
         <div class="metrics-grid">
@@ -220,47 +221,76 @@
 
     <script src="js/main.js"></script>
     <script>
-        // Recency Chart
-        new Chart(document.getElementById('recencyChart'), {
-            type: 'bar',
-            data: {
-                labels: ['0-15', '15-30', '30-45', '45-60', '60-90', '90+'],
-                datasets: [{
-                    data: [720, 540, 460, 380, 290, 160],
-                    backgroundColor: '#3b82f6',
-                    borderRadius: 4,
-                    barPercentage: 0.7
-                }]
-            },
-            options: {
-                plugins: { legend: { display: false } },
-                scales: {
-                    x: { ticks: { color: '#94a3b8', font: { size: 11 } }, grid: { display: false } },
-                    y: { ticks: { color: '#94a3b8', font: { size: 11 } }, grid: { color: '#334155' } }
-                }
-            }
-        });
 
-        // Engagement Chart
-        new Chart(document.getElementById('engagementChart'), {
-            type: 'bar',
-            data: {
-                labels: ['0-1', '1-2', '2-3', '3-4', '4-5', '5+'],
-                datasets: [{
-                    data: [180, 420, 680, 510, 210, 90],
-                    backgroundColor: '#22c55e',
-                    borderRadius: 4,
-                    barPercentage: 0.7
-                }]
-            },
-            options: {
-                plugins: { legend: { display: false } },
-                scales: {
-                    x: { ticks: { color: '#94a3b8', font: { size: 11 } }, grid: { display: false } },
-                    y: { ticks: { color: '#94a3b8', font: { size: 11 } }, grid: { color: '#334155' } }
-                }
+
+        async function loadRealCharts() {
+            try {
+                const response = await fetch(`${API_URL}/charts/distributions`);
+                if (!response.ok) throw new Error("Failed to load chart data");
+
+                const data = await response.json();
+
+                // Recency Chart (Real Data)
+                new Chart(document.getElementById('recencyChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: data.recency.labels,
+                        datasets: [{
+                            data: data.recency.values,
+                            backgroundColor: '#3b82f6',
+                            borderRadius: 4,
+                            barPercentage: 0.7
+                        }]
+                    },
+                    options: {
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: {
+                                ticks: { color: '#94a3b8', font: { size: 11 } },
+                                grid: { display: false }
+                            },
+                            y: {
+                                ticks: { color: '#94a3b8', font: { size: 11 } },
+                                grid: { color: '#334155' }
+                            }
+                        }
+                    }
+                });
+
+                // Engagement Chart (Real Data)
+                new Chart(document.getElementById('engagementChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: data.engagement.labels,
+                        datasets: [{
+                            data: data.engagement.values,
+                            backgroundColor: '#22c55e',
+                            borderRadius: 4,
+                            barPercentage: 0.7
+                        }]
+                    },
+                    options: {
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: {
+                                ticks: { color: '#94a3b8', font: { size: 11 } },
+                                grid: { display: false }
+                            },
+                            y: {
+                                ticks: { color: '#94a3b8', font: { size: 11 } },
+                                grid: { color: '#334155' }
+                            }
+                        }
+                    }
+                });
+
+            } catch (error) {
+                console.error("Error loading charts:", error);
             }
-        });
+        }
+
+        // Load real charts when page opens
+        document.addEventListener("DOMContentLoaded", loadRealCharts);
     </script>
 
 </body>
