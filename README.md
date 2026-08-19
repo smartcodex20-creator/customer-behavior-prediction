@@ -152,6 +152,8 @@ Detailed documentation is available in the `docs/` folder:
 
 - Churn labels were created using a point-in-time approach
 - Dashboard metrics and charts are connected to live API responses
+- API serves a saved RandomForest model artifact
+- Leaderboard is ranked by model-predicted churn probability
 - Docker is included for reproducible local deployment
 
 ## Author

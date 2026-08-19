@@ -26,6 +26,9 @@ Before running the system, ensure the following are available:
 - Python 3.12
 - Project dependencies installed from `requirements.txt`
 - For Docker mode: Docker Desktop installed and running
+- If the API fails because the model file is missing, run:
+
+- `python src/models/save_serving_model.py`
 
 ---
 
@@ -91,7 +94,7 @@ Open a second terminal, then run:
 
 - View high-level customer metrics
 - Understand overall churn risk
-- Inspect Recency and Engagement distributions
+- The leaderboard ranks customers by model-predicted churn probability.
 
 **Main sections**
 
