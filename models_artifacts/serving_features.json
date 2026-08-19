@@ -1,0 +1,17 @@
+{
+  "feature_cols": [
+    "Recency",
+    "Frequency",
+    "Monetary_Positive",
+    "Avg_Basket_Size",
+    "Total_Quantity",
+    "N_Transactions",
+    "N_Returns",
+    "Return_Rate",
+    "Customer_Age_Days",
+    "Frequency_Trend",
+    "Avg_Days_Between",
+    "Std_Days_Between",
+    "Engagement_Score"
+  ]
+}
