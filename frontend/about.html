@@ -6,44 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CBPP Platform – About</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/main.js"></script>
 </head>
 
 <body>
 
     <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="logo">
-            <div class="logo-icon">C</div>
-            <div class="logo-text">
-                <h2>CBPP Platform</h2>
-                <p>Vantara Retail Solutions</p>
-            </div>
-        </div>
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar-top">
+    <div class="logo">
+      <div class="logo-icon">C</div>
+      <div class="logo-text">
+        <h2>CBPP Platform</h2>
+        <p>Vantara Retail Solutions</p>
+      </div>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+  </div>
 
-        <ul class="nav-menu">
-            <li class="nav-item">
-                <a href="index.html" class="nav-link">Overview</a>
-            </li>
-            <li class="nav-item">
-                <a href="customer.html" class="nav-link">Customer Lookup</a>
-            </li>
-            <li class="nav-item">
-                <a href="leaderboard.html" class="nav-link">Churn Leaderboard</a>
-            </li>
-            <li class="nav-item">
-                <a href="about.html" class="nav-link active">About</a>
-            </li>
-        </ul>
+  <ul class="nav-menu">
+    <li class="nav-item"><a class="nav-link" href="index.html">Overview</a></li>
+    <li class="nav-item"><a class="nav-link" href="customer.html">Customer Lookup</a></li>
+    <li class="nav-item"><a class="nav-link" href="leaderboard.html">Churn Leaderboard</a></li>
+    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+  </ul>
 
-        <div class="sidebar-footer" style="text-align: center; padding-top: 20px;">
-            <div style="font-size: 14px; font-weight: 600; color: #cbd5e1; margin-bottom: 4px;">
-                CBPP Platform
-            </div>
-            <div style="font-size: 12px; color: #64748b;">
-                Vantara Retail Solutions
-            </div>
-        </div>
-    </aside>
+  <div class="sidebar-footer">
+    <h3>CBPP Platform</h3>
+    <p>Vantara Retail Solutions</p>
+  </div>
+</aside>
 
     <!-- Main Content -->
     <main class="main-content">

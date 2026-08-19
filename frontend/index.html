@@ -6,6 +6,7 @@
     <title>CBPP Platform – Overview</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/main.js"></script>
     <style>
         .metrics-grid {
             display: grid;
@@ -96,31 +97,31 @@
 
 <body>
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="logo">
-            <div class="logo-icon">C</div>
-            <div class="logo-text">
-                <h2>CBPP Platform</h2>
-                <p>Vantara Retail Solutions</p>
-            </div>
-        </div>
-        <ul class="nav-menu">
-            <li class="nav-item"><a href="index.html" class="nav-link active">Overview</a></li>
-            <li class="nav-item"><a href="customer.html" class="nav-link">Customer Lookup</a></li>
-            <li class="nav-item"><a href="leaderboard.html" class="nav-link">Churn Leaderboard</a></li>
-            <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-        </ul>
+   <!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-top">
+    <div class="logo">
+      <div class="logo-icon">C</div>
+      <div class="logo-text">
+        <h2>CBPP Platform</h2>
+        <p>Vantara Retail Solutions</p>
+      </div>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+  </div>
 
-        <div class="sidebar-footer" style="text-align: center; padding-top: 20px;">
-            <div style="font-size: 14px; font-weight: 600; color: #cbd5e1; margin-bottom: 4px;">
-                CBPP Platform
-            </div>
-            <div style="font-size: 12px; color: #64748b;">
-                Vantara Retail Solutions
-            </div>
-        </div>
-    </aside>
+  <ul class="nav-menu">
+    <li class="nav-item"><a class="nav-link" href="index.html">Overview</a></li>
+    <li class="nav-item"><a class="nav-link" href="customer.html">Customer Lookup</a></li>
+    <li class="nav-item"><a class="nav-link" href="leaderboard.html">Churn Leaderboard</a></li>
+    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+  </ul>
+
+  <div class="sidebar-footer">
+    <h3>CBPP Platform</h3>
+    <p>Vantara Retail Solutions</p>
+  </div>
+</aside>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -218,79 +219,74 @@
 
     </main>
 
-    <script src="js/main.js"></script>
-    <script>
+   <script src="js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    async function loadRealCharts() {
+        try {
+            const response = await fetch("./data/charts.json");
+            if (!response.ok) throw new Error("Failed to load chart data");
 
+            const data = await response.json();
 
-        async function loadRealCharts() {
-            try {
-                const response = await fetch(`${API_URL}/charts/distributions`);
-                if (!response.ok) throw new Error("Failed to load chart data");
-
-                const data = await response.json();
-
-                // Recency Chart (Real Data)
-                new Chart(document.getElementById('recencyChart'), {
-                    type: 'bar',
-                    data: {
-                        labels: data.recency.labels,
-                        datasets: [{
-                            data: data.recency.values,
-                            backgroundColor: '#3b82f6',
-                            borderRadius: 4,
-                            barPercentage: 0.7
-                        }]
-                    },
-                    options: {
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            x: {
-                                ticks: { color: '#94a3b8', font: { size: 11 } },
-                                grid: { display: false }
-                            },
-                            y: {
-                                ticks: { color: '#94a3b8', font: { size: 11 } },
-                                grid: { color: '#334155' }
-                            }
+            new Chart(document.getElementById("recencyChart"), {
+                type: "bar",
+                data: {
+                    labels: data.recency.labels,
+                    datasets: [{
+                        data: data.recency.values,
+                        backgroundColor: "#3b82f6",
+                        borderRadius: 4,
+                        barPercentage: 0.7
+                    }]
+                },
+                options: {
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: {
+                            ticks: { color: "#94a3b8", font: { size: 11 } },
+                            grid: { display: false }
+                        },
+                        y: {
+                            ticks: { color: "#94a3b8", font: { size: 11 } },
+                            grid: { color: "#334155" }
                         }
                     }
-                });
+                }
+            });
 
-                // Engagement Chart (Real Data)
-                new Chart(document.getElementById('engagementChart'), {
-                    type: 'bar',
-                    data: {
-                        labels: data.engagement.labels,
-                        datasets: [{
-                            data: data.engagement.values,
-                            backgroundColor: '#22c55e',
-                            borderRadius: 4,
-                            barPercentage: 0.7
-                        }]
-                    },
-                    options: {
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            x: {
-                                ticks: { color: '#94a3b8', font: { size: 11 } },
-                                grid: { display: false }
-                            },
-                            y: {
-                                ticks: { color: '#94a3b8', font: { size: 11 } },
-                                grid: { color: '#334155' }
-                            }
+            new Chart(document.getElementById("engagementChart"), {
+                type: "bar",
+                data: {
+                    labels: data.engagement.labels,
+                    datasets: [{
+                        data: data.engagement.values,
+                        backgroundColor: "#22c55e",
+                        borderRadius: 4,
+                        barPercentage: 0.7
+                    }]
+                },
+                options: {
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: {
+                            ticks: { color: "#94a3b8", font: { size: 11 } },
+                            grid: { display: false }
+                        },
+                        y: {
+                            ticks: { color: "#94a3b8", font: { size: 11 } },
+                            grid: { color: "#334155" }
                         }
                     }
-                });
-
-            } catch (error) {
-                console.error("Error loading charts:", error);
-            }
+                }
+            });
+        } catch (error) {
+            console.error("Error loading charts:", error);
         }
+    }
 
-        // Load real charts when page opens
-        document.addEventListener("DOMContentLoaded", loadRealCharts);
-    </script>
+    document.addEventListener("DOMContentLoaded", loadRealCharts);
+</script>
 
 </body>
 

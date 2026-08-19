@@ -1,0 +1,506 @@
+{
+  "count": 50,
+  "ranking_method": "model_churn_probability",
+  "customers": [
+    {
+      "Customer_ID": 13749,
+      "Recency": 601,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9739,
+      "Risk_Score": 97.4
+    },
+    {
+      "Customer_ID": 14120,
+      "Recency": 330,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9727,
+      "Risk_Score": 97.3
+    },
+    {
+      "Customer_ID": 13528,
+      "Recency": 582,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9726,
+      "Risk_Score": 97.3
+    },
+    {
+      "Customer_ID": 17661,
+      "Recency": 541,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9726,
+      "Risk_Score": 97.3
+    },
+    {
+      "Customer_ID": 17943,
+      "Recency": 579,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9726,
+      "Risk_Score": 97.3
+    },
+    {
+      "Customer_ID": 16580,
+      "Recency": 628,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9721,
+      "Risk_Score": 97.2
+    },
+    {
+      "Customer_ID": 13342,
+      "Recency": 482,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.972,
+      "Risk_Score": 97.2
+    },
+    {
+      "Customer_ID": 15997,
+      "Recency": 517,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9719,
+      "Risk_Score": 97.2
+    },
+    {
+      "Customer_ID": 14906,
+      "Recency": 345,
+      "Frequency": 3,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.42,
+      "Churn": 1,
+      "Churn_Probability": 0.9719,
+      "Risk_Score": 97.2
+    },
+    {
+      "Customer_ID": 13910,
+      "Recency": 343,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9713,
+      "Risk_Score": 97.1
+    },
+    {
+      "Customer_ID": 16512,
+      "Recency": 628,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9709,
+      "Risk_Score": 97.1
+    },
+    {
+      "Customer_ID": 14914,
+      "Recency": 505,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9709,
+      "Risk_Score": 97.1
+    },
+    {
+      "Customer_ID": 17424,
+      "Recency": 328,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9703,
+      "Risk_Score": 97.0
+    },
+    {
+      "Customer_ID": 16220,
+      "Recency": 628,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9699,
+      "Risk_Score": 97.0
+    },
+    {
+      "Customer_ID": 17645,
+      "Recency": 628,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9699,
+      "Risk_Score": 97.0
+    },
+    {
+      "Customer_ID": 13378,
+      "Recency": 322,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9697,
+      "Risk_Score": 97.0
+    },
+    {
+      "Customer_ID": 13463,
+      "Recency": 320,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9697,
+      "Risk_Score": 97.0
+    },
+    {
+      "Customer_ID": 14781,
+      "Recency": 320,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9697,
+      "Risk_Score": 97.0
+    },
+    {
+      "Customer_ID": 12382,
+      "Recency": 582,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9697,
+      "Risk_Score": 97.0
+    },
+    {
+      "Customer_ID": 12706,
+      "Recency": 582,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9697,
+      "Risk_Score": 97.0
+    },
+    {
+      "Customer_ID": 13054,
+      "Recency": 582,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9697,
+      "Risk_Score": 97.0
+    },
+    {
+      "Customer_ID": 15357,
+      "Recency": 582,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9697,
+      "Risk_Score": 97.0
+    },
+    {
+      "Customer_ID": 17130,
+      "Recency": 582,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9697,
+      "Risk_Score": 97.0
+    },
+    {
+      "Customer_ID": 14832,
+      "Recency": 530,
+      "Frequency": 3,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.42,
+      "Churn": 1,
+      "Churn_Probability": 0.9692,
+      "Risk_Score": 96.9
+    },
+    {
+      "Customer_ID": 15383,
+      "Recency": 582,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9681,
+      "Risk_Score": 96.8
+    },
+    {
+      "Customer_ID": 16154,
+      "Recency": 582,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9681,
+      "Risk_Score": 96.8
+    },
+    {
+      "Customer_ID": 16575,
+      "Recency": 582,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9681,
+      "Risk_Score": 96.8
+    },
+    {
+      "Customer_ID": 13231,
+      "Recency": 446,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9678,
+      "Risk_Score": 96.8
+    },
+    {
+      "Customer_ID": 13335,
+      "Recency": 440,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9678,
+      "Risk_Score": 96.8
+    },
+    {
+      "Customer_ID": 17546,
+      "Recency": 446,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9678,
+      "Risk_Score": 96.8
+    },
+    {
+      "Customer_ID": 14864,
+      "Recency": 631,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9677,
+      "Risk_Score": 96.8
+    },
+    {
+      "Customer_ID": 16853,
+      "Recency": 631,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9677,
+      "Risk_Score": 96.8
+    },
+    {
+      "Customer_ID": 16995,
+      "Recency": 272,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9662,
+      "Risk_Score": 96.6
+    },
+    {
+      "Customer_ID": 12896,
+      "Recency": 630,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9654,
+      "Risk_Score": 96.5
+    },
+    {
+      "Customer_ID": 13409,
+      "Recency": 524,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9645,
+      "Risk_Score": 96.4
+    },
+    {
+      "Customer_ID": 13633,
+      "Recency": 503,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9645,
+      "Risk_Score": 96.4
+    },
+    {
+      "Customer_ID": 14313,
+      "Recency": 524,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9645,
+      "Risk_Score": 96.4
+    },
+    {
+      "Customer_ID": 17452,
+      "Recency": 503,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9645,
+      "Risk_Score": 96.4
+    },
+    {
+      "Customer_ID": 13353,
+      "Recency": 288,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9638,
+      "Risk_Score": 96.4
+    },
+    {
+      "Customer_ID": 14939,
+      "Recency": 530,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9623,
+      "Risk_Score": 96.2
+    },
+    {
+      "Customer_ID": 16514,
+      "Recency": 530,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9623,
+      "Risk_Score": 96.2
+    },
+    {
+      "Customer_ID": 17445,
+      "Recency": 530,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9623,
+      "Risk_Score": 96.2
+    },
+    {
+      "Customer_ID": 14308,
+      "Recency": 449,
+      "Frequency": 5,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.54,
+      "Churn": 1,
+      "Churn_Probability": 0.9619,
+      "Risk_Score": 96.2
+    },
+    {
+      "Customer_ID": 17632,
+      "Recency": 617,
+      "Frequency": 2,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.33,
+      "Churn": 1,
+      "Churn_Probability": 0.9605,
+      "Risk_Score": 96.0
+    },
+    {
+      "Customer_ID": 17755,
+      "Recency": 324,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9603,
+      "Risk_Score": 96.0
+    },
+    {
+      "Customer_ID": 16703,
+      "Recency": 631,
+      "Frequency": 1,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.21,
+      "Churn": 1,
+      "Churn_Probability": 0.9596,
+      "Risk_Score": 96.0
+    },
+    {
+      "Customer_ID": 12773,
+      "Recency": 464,
+      "Frequency": 2,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.33,
+      "Churn": 1,
+      "Churn_Probability": 0.9596,
+      "Risk_Score": 96.0
+    },
+    {
+      "Customer_ID": 17378,
+      "Recency": 274,
+      "Frequency": 2,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.33,
+      "Churn": 1,
+      "Churn_Probability": 0.9582,
+      "Risk_Score": 95.8
+    },
+    {
+      "Customer_ID": 17570,
+      "Recency": 281,
+      "Frequency": 2,
+      "Monetary_Positive": 0.0,
+      "Engagement_Score": 0.33,
+      "Churn": 1,
+      "Churn_Probability": 0.9582,
+      "Risk_Score": 95.8
+    },
+    {
+      "Customer_ID": 14095,
+      "Recency": 622,
+      "Frequency": 1,
+      "Monetary_Positive": 2.95,
+      "Engagement_Score": 0.62,
+      "Churn": 1,
+      "Churn_Probability": 0.9581,
+      "Risk_Score": 95.8
+    }
+  ]
+}

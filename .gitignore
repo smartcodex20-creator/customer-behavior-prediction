@@ -52,3 +52,15 @@ desktop.ini
 .coverage
 htmlcov/
 .pytest_cache/
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+
+# Local deploy experiments
+hf_space/
+hf_deploy/
+
+# Local screenshots / temp
+image.png

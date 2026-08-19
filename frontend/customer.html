@@ -11,38 +11,29 @@
 <body>
 
     <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="logo">
-            <div class="logo-icon">C</div>
-            <div class="logo-text">
-                <h2>CBPP Platform</h2>
-                <p>Vantara Retail Solutions</p>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-top">
+            <div class="logo">
+                <div class="logo-icon">C</div>
+                <div class="logo-text">
+                    <h2>CBPP Platform</h2>
+                    <p>Vantara Retail Solutions</p>
+                </div>
             </div>
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
         </div>
 
         <ul class="nav-menu">
-            <li class="nav-item">
-                <a href="index.html" class="nav-link">Overview</a>
-            </li>
-            <li class="nav-item">
-                <a href="customer.html" class="nav-link active">Customer Lookup</a>
-            </li>
-            <li class="nav-item">
-                <a href="leaderboard.html" class="nav-link">Churn Leaderboard</a>
-            </li>
-            <li class="nav-item">
-                <a href="about.html" class="nav-link">About</a>
-            </li>
+            <li class="nav-item"><a class="nav-link" href="index.html">Overview</a></li>
+            <li class="nav-item"><a class="nav-link active" href="customer.html">Customer Lookup</a></li>
+            <li class="nav-item"><a class="nav-link" href="leaderboard.html">Churn Leaderboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
         </ul>
 
-        <div class="sidebar-footer" style="text-align: center; padding-top: 20px;">
-    <div style="font-size: 14px; font-weight: 600; color: #cbd5e1; margin-bottom: 4px;">
-        CBPP Platform
-    </div>
-    <div style="font-size: 12px; color: #64748b;">
-        Vantara Retail Solutions
-    </div>
-</div>
+        <div class="sidebar-footer">
+            <h3>CBPP Platform</h3>
+            <p>Vantara Retail Solutions</p>
+        </div>
     </aside>
 
     <!-- Main Content -->
@@ -96,69 +87,59 @@
         </div>
     </main>
 
-    <script>
-        const API_URL = "http://127.0.0.1:8000";
+    <!-- main.js first (defines API_URL + hamburger) -->
+    <script src="js/main.js"></script>
+<script>
+    async function lookupCustomer() {
+        const customerId = document.getElementById("customer-id").value;
+        const resultSection = document.getElementById("result-section");
+        const errorSection = document.getElementById("error-section");
 
-        async function lookupCustomer() {
-            const customerId = document.getElementById("customer-id").value;
-            const resultSection = document.getElementById("result-section");
-            const errorSection = document.getElementById("error-section");
+        resultSection.style.display = "none";
+        errorSection.style.display = "none";
 
-            // Hide previous results
-            resultSection.style.display = "none";
-            errorSection.style.display = "none";
+        if (!customerId) {
+            showError("Please enter a Customer ID.");
+            return;
+        }
 
-            if (!customerId) {
-                showError("Please enter a Customer ID.");
+        try {
+            const response = await fetch("./data/customers.json");
+            if (!response.ok) throw new Error("Failed to load customer data");
+            const customers = await response.json();
+            const data = customers[String(customerId)];
+
+            if (!data) {
+                showError(`Customer ID ${customerId} was not found in the database.`);
                 return;
             }
 
-            try {
-                const response = await fetch(`${API_URL}/customer/${customerId}`);
+            document.getElementById("result-probability").textContent =
+                (data.Churn_Probability * 100).toFixed(1) + "%";
+            document.getElementById("result-prediction").textContent =
+                data.Churn_Prediction === 1 ? "Churn" : "Active";
+            document.getElementById("result-risk").textContent = data.Risk_Level;
+            document.getElementById("result-id").textContent = data.Customer_ID || customerId;
+            document.getElementById("result-message").textContent = data.Message;
 
-                if (response.status === 404) {
-                    showError(`Customer ID ${customerId} was not found in the database.`);
-                    return;
-                }
+            const riskEl = document.getElementById("result-risk");
+            if (data.Risk_Level === "High") riskEl.style.color = "#ef4444";
+            else if (data.Risk_Level === "Medium") riskEl.style.color = "#f59e0b";
+            else riskEl.style.color = "#22c55e";
 
-                if (!response.ok) {
-                    showError("Something went wrong while contacting the API.");
-                    return;
-                }
-
-                const data = await response.json();
-
-                // Show results
-                document.getElementById("result-probability").textContent =
-                    (data.Churn_Probability * 100).toFixed(1) + "%";
-
-                document.getElementById("result-prediction").textContent =
-                    data.Churn_Prediction === 1 ? "Churn" : "Active";
-
-                document.getElementById("result-risk").textContent = data.Risk_Level;
-                document.getElementById("result-id").textContent = data.Customer_ID || customerId;
-                document.getElementById("result-message").textContent = data.Message;
-
-                // Color the risk level
-                const riskEl = document.getElementById("result-risk");
-                if (data.Risk_Level === "High") riskEl.style.color = "#ef4444";
-                else if (data.Risk_Level === "Medium") riskEl.style.color = "#f59e0b";
-                else riskEl.style.color = "#22c55e";
-
-                resultSection.style.display = "block";
-
-            } catch (error) {
-                showError("Could not connect to the API. Make sure the FastAPI server is running on port 8000.");
-                console.error(error);
-            }
+            resultSection.style.display = "block";
+        } catch (error) {
+            showError("Could not load customer data.");
+            console.error(error);
         }
+    }
 
-        function showError(message) {
-            const errorSection = document.getElementById("error-section");
-            document.getElementById("error-message").textContent = message;
-            errorSection.style.display = "block";
-        }
-    </script>
+    function showError(message) {
+        const errorSection = document.getElementById("error-section");
+        document.getElementById("error-message").textContent = message;
+        errorSection.style.display = "block";
+    }
+</script>
 
 </body>
 
