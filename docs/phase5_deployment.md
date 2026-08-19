@@ -1,17 +1,18 @@
 # Phase 5 – Deployment Documentation
 
 **Project:** Customer Behavior Prediction Platform  
-**Last Updated:** 18 August 2026
+**Last Updated:** 19 August 2026
 
 ---
 
 ## 1. Objective
 
-Deploy the Customer Behavior Prediction Platform as a usable local system with:
+Deploy the Customer Behavior Prediction Platform as a usable system with:
 
-- FastAPI backend
+- FastAPI backend for local/real-time prediction
 - Custom frontend dashboard
-- Docker-based packaging
+- Docker-based local packaging
+- Public free hosting for demo access without requiring the developer PC to stay online
 
 ---
 
@@ -48,15 +49,9 @@ Deploy the Customer Behavior Prediction Platform as a usable local system with:
 | Churn Leaderboard | `frontend/leaderboard.html` | High-risk customers with search |
 | About | `frontend/about.html` | Platform summary |
 
-### Frontend Behavior
-- Metrics are loaded from the API
-- Charts are loaded from the API
-- Customer predictions are loaded from the API
-- Leaderboard data is loaded from the API
-
 ---
 
-## 4. Docker Deployment
+## 4. Docker Deployment (Local Full Stack)
 
 ### Files Added
 - `Dockerfile`
@@ -74,25 +69,74 @@ Deploy the Customer Behavior Prediction Platform as a usable local system with:
 ### Run Command
 ```bash
 docker compose up --build
+```
 
-Access URLs
+### Access URLs
+- Frontend: http://127.0.0.1:5500/index.html
+- API Docs: http://127.0.0.1:8000/docs
+- Health: http://127.0.0.1:8000/health
 
-Frontend: http://127.0.0.1:5500/index.html
-API Docs: http://127.0.0.1:8000/docs
-Health: http://127.0.0.1:8000/health
+---
 
+## 5. Public Deployment – Firebase Static Mode
 
-## 5. Verification
+### Constraint
+- No paid hosting services
+- Public HTTPS required
+- Must work without developer PC being online
 
-Check,Result
-API health endpoint,Working
-API docs,Working
-Frontend dashboard,Working
-Real metrics,Working
-Real charts,Working
-Customer lookup,Working
-Leaderboard and search,Working
-Docker Compose,Working
+### Solution
+Export API responses into static JSON files and host frontend + data on Firebase Hosting.
 
-## 6. Status
-Phase 5 deployment deliverables are complete.
+### Static Data Files
+- `frontend/data/metrics.json`
+- `frontend/data/charts.json`
+- `frontend/data/leaderboard.json`
+- `frontend/data/customers.json`
+
+### Export Scripts
+- `export_static_data.py`
+- `export_charts.py`
+
+### Production Behavior
+- Overview metrics load from `metrics.json`
+- Charts load from `charts.json`
+- Customer Lookup loads from `customers.json`
+- Leaderboard loads from `leaderboard.json`
+
+### Public URL
+- https://customer-behavior-pred.web.app
+
+### Refresh Production Data
+1. Start local API: `uvicorn api.main:app --host 127.0.0.1 --port 8000`
+2. Run:
+   - `python export_static_data.py`
+   - `python export_charts.py`
+3. Deploy:
+   - `firebase deploy --only hosting`
+
+---
+
+## 6. Verification
+
+| Check | Result |
+|------|--------|
+| API health endpoint | Working |
+| API docs | Working |
+| Frontend dashboard (local) | Working |
+| Real metrics | Working |
+| Real charts | Working |
+| Customer lookup | Working |
+| Leaderboard and search | Working |
+| Docker Compose | Working |
+| Public Firebase site | Working |
+| Works without local PC | Working |
+
+---
+
+## 7. Status
+
+Phase 5 deployment deliverables are complete for:
+- Local API + frontend
+- Docker packaging
+- Public Firebase static production deployment
