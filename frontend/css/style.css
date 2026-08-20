@@ -534,3 +534,27 @@ tr:hover {
     font-size: 22px;
   }
 }
+/* Light glow for all page boxes – minimal, non-breaking */
+.card,
+.metric-card,
+.insight-card,
+.chart-card,
+.about-card,
+.capability-card,
+.dark-card {
+    box-shadow:
+        0 8px 22px rgba(0, 0, 0, 0.18),
+        0 0 22px rgba(91, 141, 239, 0.08);
+}
+
+.card:hover,
+.metric-card:hover,
+.insight-card:hover,
+.chart-card:hover,
+.about-card:hover,
+.capability-card:hover,
+.dark-card:hover {
+    box-shadow:
+        0 12px 28px rgba(0, 0, 0, 0.22),
+        0 0 28px rgba(91, 141, 239, 0.12);
+}
